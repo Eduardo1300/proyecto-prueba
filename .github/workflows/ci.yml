@@ -20,3 +20,17 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm test -- --watchAll=false
+      - name: Run linter (eslint)
+        run: |
+          if npm run | grep -q "lint"; then
+            npm run lint
+          else
+            echo "No hay script de lint configurado."
+          fi
+      - name: Build production app
+        run: npm run build
+      - name: Upload production build as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build
